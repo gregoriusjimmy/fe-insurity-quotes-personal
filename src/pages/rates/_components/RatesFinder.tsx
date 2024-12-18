@@ -1,7 +1,7 @@
 import InputField from "@components/react/InputField";
-import SelectField from "@components/react/SelectField";
+import SelectField, { type TOption } from "@components/react/SelectField";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   insuranceRatesSchema,
   type TInsuranceRatesForm,
@@ -12,21 +12,40 @@ import Button from "@components/react/Button";
 import { MapPin } from "lucide-react";
 import dummyInsurances from "./insuraces.json";
 
-const RatesFinder = () => {
+const AGE_OPTIONS: TOption[] = [
+  { label: "18-20", value: "18-20" },
+  { label: "21-24", value: "21-24" },
+  { label: "25-34", value: "25-34" },
+  { label: "35-44", value: "35-44" },
+  { label: "45-54", value: "45-54" },
+  { label: "55-64", value: "55-64" },
+  { label: "65+", value: "65+" },
+];
+
+type Props = {
+  zipCode: string;
+};
+
+const RatesFinder = ({ zipCode }: Props) => {
   const {
     register,
     handleSubmit,
+    control,
     watch,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<TInsuranceRatesForm>({
     resolver: zodResolver(insuranceRatesSchema),
-    mode: "onSubmit",
+    mode: "onChange",
+    defaultValues: {
+      age: "25-34",
+      currentlyInsured: true,
+      homeOwner: true,
+      multipleVec: true,
+      zipCode,
+    },
   });
 
-  const age = watch("age");
-  const zipCode = watch("zipCode");
-
-  const isButtonDisabled = !age || !zipCode;
+  const isButtonDisabled = !isValid || !isValid;
 
   const onSubmit = (data: TInsuranceRatesForm) => {
     console.log(data);
@@ -36,20 +55,25 @@ const RatesFinder = () => {
       <div className="bg-background-1 w-[95%] mx-auto rounded-lg py-6 sm:layout border-b shadow-sm">
         <div className="flex flex-col lg:flex-row px-4 lg:px-6 w-full space-y-4 lg:space-x-6 lg:mx-auto lg:w-fit">
           <div className="flex space-x-6 w-full lg:grow lg:w-auto lg:max-w-[20rem]">
-            <InputField
-              errMsgContainerClassName="lg:absolute lg:max-w-[9.5rem]"
-              errorMessage={errors.age?.message}
-              type="number"
-              inputMode="numeric"
-              maxLength={3}
-              max={100}
-              className="w-full"
-              containerClassName="w-[40%] shrink-0 lg:grow lg:max-w-[40%]"
-              label="Age"
-              {...register("age", { valueAsNumber: true })}
+            <Controller
+              name="age"
+              control={control}
+              render={({ field }) => (
+                <SelectField
+                  {...field}
+                  options={AGE_OPTIONS}
+                  errMsgContainerClassName="lg:absolute lg:max-w-[9.5rem]"
+                  errorMessage={errors.age?.message}
+                  className="w-full"
+                  placeholder="Age"
+                  containerClassName="w-[40%] shrink-0 lg:grow lg:max-w-[40%]"
+                  label="Age"
+                  onChange={field.onChange}
+                />
+              )}
             />
             <InputField
-              errMsgContainerClassName="lg:absolute  lg:max-w-[10rem]"
+              errMsgContainerClassName="lg:absolute "
               errorMessage={errors.zipCode?.message}
               maxLength={5}
               rightIcon={<MapPin className="text-foreground-900 w-5 h-5" />}

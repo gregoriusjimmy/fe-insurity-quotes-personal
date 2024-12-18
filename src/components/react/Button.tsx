@@ -6,7 +6,7 @@ import cn from "@lib/cn";
 export interface ButtonProps extends ComponentPropsWithRef<"button"> {
   color?: "grey" | "red" | "primary" | "green";
   isLoading?: boolean;
-  variant?: "contained";
+  variant?: "contained" | "outlined";
   size?: "sm" | "md" | "lg";
 }
 
@@ -21,6 +21,7 @@ const buttonVariants = cva(
       },
       variant: {
         contained: "border-none",
+        outlined: "border",
       },
       color: {
         grey: "bg-grey8-600 text-text disabled:bg-grey8-700 disabled:text-grey7-400",
@@ -35,6 +36,14 @@ const buttonVariants = cva(
         false: "",
       },
     },
+    compoundVariants: [
+      {
+        color: "primary",
+        variant: "outlined",
+        className:
+          "bg-background-1 text-primary-500 hover:bg-primary-50 border-primary-500",
+      },
+    ],
     defaultVariants: {
       variant: "contained",
       color: "primary",

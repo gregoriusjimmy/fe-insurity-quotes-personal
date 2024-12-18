@@ -53,8 +53,8 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
-      if (value.length > (maxLength || 3)) {
-        e.target.value = value.slice(0, maxLength || 3); // Limit to maxLength
+      if (maxLength && value.length > maxLength) {
+        e.target.value = value.slice(0, maxLength);
       }
     };
 
