@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  font-size: 16px;
+  @apply font-primary;
+
+  @screen 2xl {
+    font-size: 18px;
+  }
+}
+
+.layout-header {
+  /* 1100px */
+  max-width: 68.75rem;
+  @apply mx-auto w-11/12;
+}
+
+@layer components {
+  .layout {
+    /* 1100px */
+    max-width: 68.75rem;
+    @apply mx-auto w-[90%] md:w-[80%];
+  }
+
+  /* Adjust to 1200px on large screens */
+  @screen lg {
+    .layout {
+      max-width: 75rem;
+    }
+  }
+  /* Adjust to 1400px on extra-large screens */
+  @screen xl {
+    .layout {
+      max-width: 87.5rem;
+    }
+  }
+}
+
+/* Base theme variables (dark mode by default) */
+:root {
+  --primary-900: 11, 45, 111; /* #0B2D6F */
+  --primary-800: 16, 63, 158; /* #103F9E */
+  --primary-700: 19, 76, 190; /* #134CBE */
+  --primary-600: 22, 87, 218; /* #1657DA */
+  --primary-500: 35, 101, 233; /* #2365E9 */
+  --primary-400: 107, 151, 240; /* #6B97F0 */
+  --primary-300: 158, 187, 245; /* #9EBBF5 */
+  --primary-200: 195, 213, 249; /* #C3D5F9 */
+  --primary-100: 227, 236, 252; /* #E3ECFC */
+  --primary-50: 241, 245, 254; /* #F1F5FE */
+
+  --background: 244, 244, 245; /* #F4F4F5 */
+
+  --background-900: 10, 14, 17; /* #0A0E11 */ /* Darkest */
+  --background-800: 19, 26, 31; /* #131A1F */
+  --background-700: 25, 26, 32; /* #191A20 */
+  --background-600: 36, 38, 46; /* #24262E */
+  --background-500: 39, 41, 50; /* #272932 */
+  --background-400: 123, 128, 152; /* #7B8098 */
+  --background-300: 172, 172, 180; /* #ACACB4 */
+  --background-200: 204, 204, 209; /* #CCCCD1 */
+  --background-100: 231, 231, 233; /* #E7E7E9 */
+  --background-50: 244, 244, 245; /* #F4F4F5 */ /* Lightest */
+  --background-1: 255, 255, 255; /* #F4F4F5 */ /* Lightest */
+
+  --foreground-50: 244, 244, 245; /* #F4F4F5 */ /* Lightest */
+  --foreground-100: 231, 231, 233; /* #E7E7E9 */
+  --foreground-200: 204, 204, 209; /* #CCCCD1 */
+  --foreground-300: 172, 172, 180; /* #ACACB4 */
+  --foreground-400: 126, 126, 139; /* #7E7E8B */
+  --foreground-500: 123, 128, 152; /* #7B8098 */
+  --foreground-600: 39, 41, 50; /* #272932 */
+  --foreground-700: 36, 38, 46; /* #24262E */
+  --foreground-800: 25, 26, 32; /* #191A20 */
+  --foreground-900: 10, 14, 17; /* #0A0E11 */ /* Darkest */
+
+  --static: 244, 244, 245; /* #F4F4F5 */
+
+  --hover: 229, 232, 235; /* #E5E8EB */
+  --hover2: 135, 150, 157; /* Already in RGB */
+
+  --green-500: 48, 209, 88; /* #30D158 */
+  --green-600: 43, 192, 80; /* #2BC050 */
+  --green-700: 37, 167, 70; /* #25A746 */
+  --green-900: 21, 96, 40; /* #156028 */
+
+  --red-500: 255, 69, 58; /* #FF453A */
+
+  --pink-500: 255, 55, 95; /* #FF375F */
+
+  --blue-500: 10, 132, 255; /* #0A84FF */
+  --blue-900: 0, 64, 128; /* #004080 */
+
+  --orange-500: 255, 159, 10; /* #FF9F0A */
+  --orange-600: 235, 141, 0; /* #EB8D00 */
+
+  --background: 14, 19, 23; /* #0E1317 */
+  --black: 0, 0, 0; /* #000000 */
+  --static: 10, 14, 17; /* #0A0E11 */
+  --white: 255, 255, 255; /* #FFFFFF */
+  --text: 255, 255, 255; /* #FFFFFF */
+  --hover: 19, 26, 31; /* #131A1F */
+  --hover2: 23, 33, 40; /* #172128 */
+}

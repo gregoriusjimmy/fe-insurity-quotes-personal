@@ -1,0 +1,58 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { EENV } from "@constants/index";
+import { ENV } from "src/config";
+import { API_URL, BACKEND_URL } from "src/config";
+import InputField from "@components/react/InputField";
+import RatesFinder from "./_components/RatesFinder";
+
+interface TGeoLocationRes {
+  status: "success" | "fail";
+  country: string;
+  countryCode: string;
+  region: string;
+  regionName: string;
+  city: string;
+  zip: string;
+  lat: number;
+  lon: number;
+  timezone: string;
+}
+
+// Initialize default values
+let city = "your area";
+let zip = "your zip code";
+
+try {
+  const res = await fetch(`${API_URL}/geo/get-ip-data`, {
+    headers:
+      ENV === EENV.DEV
+        ? {
+            "X-Forwarded-For": "154.38.158.157", // Simulating the IP address in development
+          }
+        : {},
+  });
+  const data: TGeoLocationRes = await res.json();
+  city = data.city || city;
+  zip = data.zip || zip;
+} catch (error) {
+  console.error(error);
+}
+---
+
+<Layout>
+  <div class="bg-primary-900 w-full">
+    <div class="layout pt-14 pb-[6.5rem]">
+      <h1 class="text-4xl font-semibold text-foreground-50 mb-5">
+        Your top matches in {city}
+      </h1>
+      <h1 class="text-foreground-50 font-medium">
+        Your top matches Compare car insurance options side-by-side to get the
+        best rate and right offer for you.
+      </h1>
+    </div>
+  </div>
+  <div class="-mt-[4rem]">
+    <RatesFinder client:load />
+  </div>
+</Layout>

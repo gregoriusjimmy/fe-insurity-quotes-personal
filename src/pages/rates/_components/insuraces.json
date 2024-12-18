@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "image": "https://d29u10q7qlh006.cloudfront.net/i/i/7/dAewQJLbA-dTrCjgdKpmUbX2Nwo.gif",
+      "name": "Geico",
+      "texts": [
+        "GEICO offers discounts for car safety features, good driving habits, and more!",
+        "GEICO’s Car Insurance Quotes are Customized for You",
+        "Switch and Save"
+      ]
+    },
+    {
+      "image": "https://d29u10q7qlh006.cloudfront.net/i/i/47/Hw0rpgvXKj7RnbyrQocqXd3NLMw.png",
+      "name": "Progresssive",
+      "texts": [
+        "Get a customized quote today and see what you could save",
+        "Fast, easy and reliable claims service available 24 hours a day",
+        "Trusted by millions of drivers to insure what’s important"
+      ]
+    },
+    {
+      "image": "https://d29u10q7qlh006.cloudfront.net/i/i/54495/TsP-eFKn1oxtBxis9_Y7OS51S2o.png",
+      "name": "Experian",
+      "texts": [
+        "Stop Overpaying for Car Insurance",
+        "See multiple car insurance quotes in minutes with our Insurance Marketplace",
+        "Compare personalized quotes across 40+ top insurers - for free",
+        "Licensed agents available to answer your questions online or by phone"
+      ]
+    }
+  ]
+}
