@@ -15,9 +15,8 @@ interface InputFieldProps extends ComponentPropsWithRef<"input"> {
   rightIcon?: ReactNode;
   errorMessage?: string;
   errMsgContainerClassName?: string;
-  withDelete?: boolean;
   label?: string;
-  onDelete?: () => void;
+  validationRegex?: RegExp;
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
@@ -27,12 +26,11 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       className,
       errMsgContainerClassName,
       errorMessage,
-      withDelete,
       leftIcon,
       rightIcon,
       label,
-      onDelete,
       maxLength,
+      validationRegex,
       ...otherProps
     },
     ref,
@@ -41,18 +39,14 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 
     useImperativeHandle(ref, () => inputRef.current!);
 
-    // const handleClickDelete = () => {
-    //   onDelete?.();
-    //   setTimeout(() => {
-    //     if (inputRef.current) {
-    //       inputRef.current.value = "";
-    //       inputRef.current.focus();
-    //     }
-    //   }, 100);
-    // };
-
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
+      let value = e.target.value;
+
+      if (validationRegex && !validationRegex.test(value)) {
+        e.target.value = value.slice(0, -1);
+        return;
+      }
+      // Enforce max length if specified
       if (maxLength && value.length > maxLength) {
         e.target.value = value.slice(0, maxLength);
       }

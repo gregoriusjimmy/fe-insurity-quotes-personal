@@ -11,7 +11,7 @@ import { useOutsideClick } from "src/hooks";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 export type TOption<T = string> = {
-  label: string;
+  label: ReactNode;
   value: T;
 };
 
@@ -111,7 +111,7 @@ const SelectField = forwardRef<HTMLDivElement, SelectFieldProps>(
             )}
           </div>
           {isOpen && (
-            <div className="absolute mt-1 left-0 right-0 bg-white border rounded-md shadow-lg z-10">
+            <div className="absolute mt-1 left-0 right-0 bg-white border rounded-md shadow-lg z-10 max-h-[15rem] overflow-y-auto">
               {options.map((option) => (
                 <div
                   key={option.value}

@@ -1,6 +1,6 @@
 import InputField from "@components/react/InputField";
 import SelectField, { type TOption } from "@components/react/SelectField";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   insuranceRatesSchema,
@@ -31,7 +31,6 @@ const RatesFinder = ({ zipCode }: Props) => {
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors, isValid },
   } = useForm<TInsuranceRatesForm>({
     resolver: zodResolver(insuranceRatesSchema),
@@ -48,8 +47,9 @@ const RatesFinder = ({ zipCode }: Props) => {
   const isButtonDisabled = !isValid || !isValid;
 
   const onSubmit = (data: TInsuranceRatesForm) => {
-    console.log(data);
+    console.warn(data);
   };
+
   return (
     <div className="flex flex-col">
       <div className="bg-background-1 w-[95%] mx-auto rounded-lg py-6 sm:layout border-b shadow-sm">

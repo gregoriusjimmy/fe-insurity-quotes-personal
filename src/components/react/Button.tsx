@@ -8,6 +8,7 @@ export interface ButtonProps extends ComponentPropsWithRef<"button"> {
   isLoading?: boolean;
   variant?: "contained" | "outlined";
   size?: "sm" | "md" | "lg";
+  active?:boolean;
 }
 
 const buttonVariants = cva(
@@ -18,6 +19,9 @@ const buttonVariants = cva(
         sm: "px-6.5 py-2.5 rounded-md text-sm",
         md: "px-9 py-2.5 rounded-md",
         lg: "px-9 py-3 rounded-md",
+      },
+      active:{
+        true:'bg-active'
       },
       variant: {
         contained: "border-none",
@@ -43,11 +47,18 @@ const buttonVariants = cva(
         className:
           "bg-background-1 text-primary-500 hover:bg-primary-50 border-primary-500",
       },
+      {
+        active:true,
+        color: "primary",
+        variant: "outlined",
+        className:
+          "bg-primary-50 border-primary-500",
+      },
     ],
     defaultVariants: {
       variant: "contained",
       color: "primary",
-      size: "md",
+      size: "lg",
     },
   },
 );
@@ -59,7 +70,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       color = "primary",
       isLoading = false,
       variant = "contained",
-      size = "md",
+      size = "lg",
+      active,
       className,
       ...otherProps
     },
@@ -69,11 +81,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          buttonVariants({ color, isLoading, variant, size }),
+          buttonVariants({ color, isLoading, variant, size,active }),
           className,
         )}
         disabled={isLoading}
-        {...otherProps}
+                {...otherProps}
       >
         {isLoading ? <span className="loader animate-spin" /> : null}
         <span
