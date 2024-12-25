@@ -117,7 +117,7 @@ const RatesFinder = ({ zipCode }: Props) => {
       </div>
       <div className="flex flex-col bg-background-1 layout space-y-4 lg:space-y-6 mt-10">
         {dummyInsurances.data.map((insurance, idx) => (
-          <InsuranceItem insurance={insurance} key={idx}/>
+          <InsuranceItem insurance={insurance} key={idx} />
         ))}
       </div>
     </div>

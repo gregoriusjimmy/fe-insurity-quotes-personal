@@ -35,7 +35,7 @@ const FullNameAnswer = ({ onAnswer }: FullNameAnswerProps) => {
         onChange={handleLastNameChange}
       />
       <Button
-      disabled={!firstName || !lastName}
+        disabled={!firstName || !lastName}
         onClick={() => {
           onAnswer({ firstName, lastName });
         }}
@@ -47,4 +47,4 @@ const FullNameAnswer = ({ onAnswer }: FullNameAnswerProps) => {
   );
 };
 
-export default FullNameAnswer
+export default FullNameAnswer;

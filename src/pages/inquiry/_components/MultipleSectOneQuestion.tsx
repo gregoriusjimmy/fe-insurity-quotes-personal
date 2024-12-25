@@ -31,7 +31,10 @@ const MultipleSelectOneQuestion = ({
       answer={
         <div className="flex flex-col space-y-8">
           <div
-            className={cn("grid grid-cols-2 lg:grid-cols-3 gap-4", isSmall && "flex flex-col")}
+            className={cn(
+              "grid grid-cols-2 lg:grid-cols-3 gap-4",
+              isSmall && "flex flex-col",
+            )}
           >
             {options.map((opt, idx) => (
               <Button
@@ -46,7 +49,7 @@ const MultipleSelectOneQuestion = ({
           </div>
           {options2?.length && (
             <SelectField
-            className="whitespace-pre w-fit"
+              className="whitespace-pre w-fit"
               onChange={(val) => onAnswer(val)}
               placeholder={placeholder}
               containerClassName="w-fit mx-auto"

@@ -5,11 +5,15 @@ import Button from "@components/react/Button";
 
 type BirthdayQuestionProps = {
   driverFirstName: string;
-  isNextDriver:boolean
+  isNextDriver: boolean;
   onAnswer: (birthday: string) => void;
 };
 
-const BirthdayQuestion = ({ driverFirstName, isNextDriver,onAnswer }: BirthdayQuestionProps) => {
+const BirthdayQuestion = ({
+  driverFirstName,
+  isNextDriver,
+  onAnswer,
+}: BirthdayQuestionProps) => {
   const [val, setVal] = useState("");
   const [hasErrors, setHasErrors] = useState(false); // Track error state
 
@@ -25,7 +29,11 @@ const BirthdayQuestion = ({ driverFirstName, isNextDriver,onAnswer }: BirthdayQu
     <FormLayout
       intro="We have to ask"
       note="Age can be a big factor in your rate. We will never share this data with a third party and only use it to get you accurate quotes."
-      question={isNextDriver?`When's ${driverFirstName}'s birthday?` :`${driverFirstName}, when's your birthday?`}
+      question={
+        isNextDriver
+          ? `When's ${driverFirstName}'s birthday?`
+          : `${driverFirstName}, when's your birthday?`
+      }
       answer={
         <div className="flex flex-col justify-center w-full">
           <InputDateField
@@ -34,7 +42,13 @@ const BirthdayQuestion = ({ driverFirstName, isNextDriver,onAnswer }: BirthdayQu
             value={val}
             onErrorChange={handleErrorChange} // Pass error change handler
           />
-          <Button className="mt-7" onClick={handleSubmit} disabled={hasErrors || !val}>Continue</Button>
+          <Button
+            className="mt-7"
+            onClick={handleSubmit}
+            disabled={hasErrors || !val}
+          >
+            Continue
+          </Button>
         </div>
       }
     />

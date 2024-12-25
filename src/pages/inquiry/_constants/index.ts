@@ -270,7 +270,7 @@ export const EDUCATION_OPTIONS_2 = [
   { label: "Doctorate", value: "Doctorate" },
   { label: "Other Professional Degree", value: "Other Professional Degree" },
   { label: "Other Non-Prof. Degree", value: "Other Non-Prof. Degree" },
-  { label: "Trade/Vocational School", value: "Trade/Vocational School" }
+  { label: "Trade/Vocational School", value: "Trade/Vocational School" },
 ];
 
 export const OCCUPATION_OPTIONS = [
@@ -285,7 +285,7 @@ export const OCCUPATION_OPTIONS = [
   { label: "Self-employed", value: "Self-employed" },
   { label: "Skilled/Semi-skilled", value: "Skilled/Semi-skilled" },
   { label: "Student", value: "Student" },
-  { label: "Unemployed", value: "Unemployed" }
+  { label: "Unemployed", value: "Unemployed" },
 ];
 
 export const OCCUPATION_OPTIONS_2 = [
@@ -293,7 +293,10 @@ export const OCCUPATION_OPTIONS_2 = [
   { label: "Artist", value: "Artist" },
   { label: "Architect", value: "Architect" },
   { label: "Business Owner", value: "Business Owner" },
-  { label: "Certified Public Accountant", value: "Certified Public Accountant" },
+  {
+    label: "Certified Public Accountant",
+    value: "Certified Public Accountant",
+  },
   { label: "Clergy", value: "Clergy" },
   { label: "Dentist", value: "Dentist" },
   { label: "Engineer", value: "Engineer" },

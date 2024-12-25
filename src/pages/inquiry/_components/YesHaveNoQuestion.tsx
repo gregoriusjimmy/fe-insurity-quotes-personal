@@ -5,10 +5,10 @@ import FormLayout from "./FormLayout";
 const ButtonYesNo = ({
   onClick,
   isYes,
-  active
+  active,
 }: {
   isYes?: boolean;
-  active?:boolean
+  active?: boolean;
   onClick: (val: boolean) => void;
 }) => {
   return (
@@ -35,10 +35,10 @@ const YesNoHaveQuestion = ({
 }: {
   question: string;
   intro?: ReactNode;
-  addition?:ReactNode
+  addition?: ReactNode;
   note?: ReactNode;
-  isButtonYesActive?:boolean
-  isButtonNoActive?:boolean,
+  isButtonYesActive?: boolean;
+  isButtonNoActive?: boolean;
   onAnswer: (val: boolean) => void;
 }) => {
   return (
@@ -48,11 +48,18 @@ const YesNoHaveQuestion = ({
       question={question}
       answer={
         <div className="flex flex-col">
-        <div className="flex flex-col space-y-4 w-full">
-          <ButtonYesNo active={isButtonYesActive} onClick={(val) => onAnswer(val)} isYes />
-          <ButtonYesNo active={isButtonNoActive} onClick={(val) => onAnswer(val)} />
-        </div>
-        {addition}
+          <div className="flex flex-col space-y-4 w-full">
+            <ButtonYesNo
+              active={isButtonYesActive}
+              onClick={(val) => onAnswer(val)}
+              isYes
+            />
+            <ButtonYesNo
+              active={isButtonNoActive}
+              onClick={(val) => onAnswer(val)}
+            />
+          </div>
+          {addition}
         </div>
       }
     />

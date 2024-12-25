@@ -4,16 +4,20 @@ import dayjs from "dayjs";
 
 type TInputDateFieldProps = {
   value: string;
-  className?:string
+  className?: string;
   onChange: (value: string) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onErrorChange?: (hasError: boolean) => void;
 };
 
-const InputDateField = ({ value, className,onChange, onBlur,onErrorChange }: TInputDateFieldProps) => {
+const InputDateField = ({
+  value,
+  className,
+  onChange,
+  onBlur,
+  onErrorChange,
+}: TInputDateFieldProps) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-
 
   const handleDateChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +47,7 @@ const InputDateField = ({ value, className,onChange, onBlur,onErrorChange }: TIn
 
       onChange(formattedValue);
     },
-    [onChange, value]
+    [onChange, value],
   );
 
   const handleBlur = useCallback(
@@ -54,13 +58,20 @@ const InputDateField = ({ value, className,onChange, onBlur,onErrorChange }: TIn
       let errorMessage = "";
 
       // Basic validation for day, month, year
-      if (!day || !month || !year || day.length !== 2 || month.length !== 2 || year.length !== 4) {
+      if (
+        !day ||
+        !month ||
+        !year ||
+        day.length !== 2 ||
+        month.length !== 2 ||
+        year.length !== 4
+      ) {
         errorMessage = "Invalid date format. Use DD/MM/YYYY.";
       } else {
         // Validate day and month range
         const dayNum = parseInt(day, 10);
         const monthNum = parseInt(month, 10);
-        
+
         // Check if the month is valid
         if (monthNum < 1 || monthNum > 12) {
           errorMessage = "Invalid month.";
@@ -99,17 +110,17 @@ const InputDateField = ({ value, className,onChange, onBlur,onErrorChange }: TIn
       }
 
       if (onErrorChange) {
-        onErrorChange(!!errorMessage); 
+        onErrorChange(!!errorMessage);
       }
 
-      onChange(value); 
+      onChange(value);
     },
-    [onBlur, onErrorChange, onChange]
+    [onBlur, onErrorChange, onChange],
   );
 
   return (
     <InputField
-    className={className}
+      className={className}
       label="Date (DD/MM/YYYY)"
       placeholder="DD/MM/YYYY"
       value={value}

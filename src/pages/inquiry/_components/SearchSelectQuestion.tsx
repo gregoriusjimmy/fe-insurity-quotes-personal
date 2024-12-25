@@ -78,4 +78,4 @@ const SearchSelectQuestion = ({
   );
 };
 
-export default SearchSelectQuestion
+export default SearchSelectQuestion;
