@@ -1,6 +1,5 @@
 import InputField from "@components/react/InputField";
 import SelectField, { type TOption } from "@components/react/SelectField";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   insuranceRatesSchema,
@@ -10,7 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CheckboxField from "@components/react/CheckboxField";
 import Button from "@components/react/Button";
 import { MapPin } from "lucide-react";
-import dummyInsurances from "./insuraces.json";
+import dummyInsurances from "./insurances.json";
+import InsuranceItem from "./InsuranceItem";
 
 const AGE_OPTIONS: TOption[] = [
   { label: "18-20", value: "18-20" },
@@ -117,30 +117,7 @@ const RatesFinder = ({ zipCode }: Props) => {
       </div>
       <div className="flex flex-col bg-background-1 layout space-y-4 lg:space-y-6 mt-10">
         {dummyInsurances.data.map((insurance, idx) => (
-          <div
-            className="flex flex-col lg:flex-row bg-background-1 shadow-lg rounded-md py-8 px-8 lg:w-full lg:space-x-10 lg:justify-evenly lg:items-center"
-            key={idx}
-          >
-            <img
-              className="w-[12rem] h-auto lg:h-auto mx-auto my-auto lg:mx-0 shrink-0 lg:w-[20%]"
-              width={192}
-              src={insurance.image}
-              alt={insurance.name}
-            />
-            <ol className="text-sm flex max-w-lg flex-col space-y-2 my-5 md:my-7 lg:my-0 sm:mx-auto lg:w-[60%] ml-5 list-disc ">
-              {insurance.texts?.map((text, idx) => (
-                <li className="" key={idx}>
-                  {text}
-                </li>
-              ))}
-            </ol>
-            <Button
-              size="lg"
-              className="max-w-lg mx-auto w-full lg:w-[20%] lg:shrink-0 lg:h-fit lg:my-auto"
-            >
-              View Rate
-            </Button>
-          </div>
+          <InsuranceItem insurance={insurance} key={idx}/>
         ))}
       </div>
     </div>

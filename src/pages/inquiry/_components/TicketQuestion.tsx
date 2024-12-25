@@ -33,11 +33,12 @@ const TICKET_FORM_FACTORY = {
 
 type TTicketQuestionProps ={
   driverFirstName:string
+  isNextDriver:boolean
   onNo:()=>void
   onYes:(form:TTicketForm)  =>void
 }
 
-const TicketQuestion = ({driverFirstName,onNo,onYes}:TTicketQuestionProps) => {
+const TicketQuestion = ({driverFirstName,isNextDriver,onNo,onYes}:TTicketQuestionProps) => {
  const [hasTickets,setHasTicket] =useState(false)
  const [dateErrors, setDateErrors] = useState<Record<string, string[]>>({});
 const [ticketForm,setTicketForm] = useState<TTicketForm>(TICKET_FORM_FACTORY)
@@ -155,7 +156,7 @@ const [ticketForm,setTicketForm] = useState<TTicketForm>(TICKET_FORM_FACTORY)
     isButtonYesActive={hasTickets}
     intro="Let's talk driving history"
       note="Accidents happen, but listing your incident history now ensures a more accurate rate. Insurance companies will verify before purchase."
-      question={`${driverFirstName}, any accidents or tickets in the last 3 years?`}
+      question={isNextDriver? `Has ${driverFirstName} had any accidents or tickets in the last 3 years?`:`${driverFirstName}, any accidents or tickets in the last 3 years?`}
       onAnswer={(isYes) => {
         if(!isYes) {onNo()
           return

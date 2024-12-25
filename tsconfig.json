@@ -14,6 +14,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
+      "@pages/*": ["src/pages/*"],
       "@constants/*": ["src/constants/*"],
       "@lib/*": ["src/lib/*"]
     }

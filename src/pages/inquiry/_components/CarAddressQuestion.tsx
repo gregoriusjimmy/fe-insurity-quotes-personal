@@ -81,7 +81,7 @@ const CarAddressQuestion = ({ defaultValues, onAnswer }: CarAddressQuestionProps
               errorMessage={errors.zipCode?.message}
               maxLength={5}
               label="Zip code"
-              containerClassName="w-1/2"
+              containerClassName="w-fit"
               {...register("zipCode")}
             />
 </div>

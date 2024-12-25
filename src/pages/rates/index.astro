@@ -21,7 +21,7 @@ interface TGeoLocationRes {
 
 // Initialize default values
 let city = "your area";
-let zip = "your zip code";
+let zip = "";
 
 try {
   const res = await fetch(`${API_URL}/geo/get-ip-data`, {

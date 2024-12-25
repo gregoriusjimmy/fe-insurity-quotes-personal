@@ -206,11 +206,11 @@ export const CAR_BRANDS_OPTIONS2: TOption[] = [
 ];
 
 export const AVERAGE_MILEAGE: TOption<string>[] = [
-  { label: "Less than 5,000", value: "less-than-5000" },
-  { label: "5,000 - 10,000", value: "5000-10000" },
-  { label: "10,000 - 15,000", value: "10000-15000" },
-  { label: "15,000 - 20,000", value: "15000-20000" },
-  { label: "More than 20,000", value: "more-than-20000" },
+  { label: "Less than 5,000", value: "Less than 5,000" },
+  { label: "5,000 - 10,000", value: "5,000 - 10,000" },
+  { label: "10,000 - 15,000", value: "10,000 - 15,000" },
+  { label: "15,000 - 20,000", value: "15,000 - 20,000" },
+  { label: "More than 20,000", value: "More than 20,000" },
 ];
 
 type TCarModel = {
