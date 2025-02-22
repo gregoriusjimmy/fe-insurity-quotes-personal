@@ -1,4 +1,85 @@
 import type { TOption } from "@components/react/SelectField";
+import type {
+  TUserCar,
+  TDriver,
+  TAnswerData,
+  TCarDriverAddress,
+} from "./types";
+
+export const USER_CAR_FACTORY: TUserCar = {
+  vehicleYear: "",
+  makeBrand: "",
+  model: "",
+  trim: "",
+  ownerShip: "",
+  primaryUse: "",
+  avgMileagePerYear: "",
+};
+
+export const DRIVER_CAR_FACTORY: TCarDriverAddress = {
+  city: "",
+  state: "",
+  streetAddress: "",
+  zipCode: "",
+  hasLivedAtAddressFor60Days: false,
+};
+
+export const DRIVER_FACTORY: TDriver = {
+  firstName: "",
+  lastName: "",
+  gender: "",
+  homeOwnership: "",
+  hasAccident: false,
+  needSR22Form: false,
+  education: "",
+  creditScore: "",
+  hasFamilyInMilitary: false,
+  occupation: "",
+  isMarried: false,
+  birthday: "",
+  address: DRIVER_CAR_FACTORY,
+};
+
+export const ANSWER_DATA_FACTORY: TAnswerData = {
+  isHaveCarInsurance: false,
+  isInMilitary: false,
+  zipCode: "",
+  currentInsurer: "",
+  durationWithInsurer: "",
+  userCars: [USER_CAR_FACTORY],
+  drivers: [DRIVER_FACTORY],
+};
+
+export const START_START_AT_STEP = 1;
+export const CAR_START_AT_STEP = 3;
+export const CAR_END_AT_STEP = 10;
+export const DRIVER_START_AT_STEP = 12;
+export const FULL_NAME_STEP = DRIVER_START_AT_STEP;
+export const DRIVER_END_AT_STEP = 23;
+export const ZIP_CODE_STEP = 2;
+export const BIRTHDAY_STEP = 21;
+export const CAR_ADDRESS_STEP = 22;
+
+export const STEPS_INFO = {
+  GETTING_STARTED: {
+    STEP_ORDER: 1,
+    TOTAL_STEP: 3,
+    START_STEP: START_START_AT_STEP,
+    END_STEP: ZIP_CODE_STEP,
+  },
+  CAR: {
+    STEP_ORDER: 2,
+    TOTAL_STEP: 8,
+    START_STEP: CAR_START_AT_STEP,
+    END_STEP: CAR_END_AT_STEP,
+  },
+  DRIVER: {
+    STEP_ORDER: 3,
+    TOTAL_STEP: 12,
+    START_STEP: DRIVER_START_AT_STEP,
+    END_STEP: DRIVER_END_AT_STEP,
+  },
+};
 
 const generateYearOptions = (
   startYear: number,

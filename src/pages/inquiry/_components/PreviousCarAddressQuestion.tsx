@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import FormLayout from "./FormLayout";
 import Button from "@components/react/Button";
-import InputField from "@components/react/InputField";
 import { addressSchema, type TAddressForm } from "../_constants/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import SelectField from "@components/react/SelectField";
 import { STATE_OPTIONS } from "../_constants";
+import InputFieldRound from "@components/react/InputFieldRound";
+import SelectFieldRound from "@components/react/SelectFieldRound";
 
 type PreviousCarAddressQuestionProps = {
   onAnswer: (data: TAddressForm) => void;
@@ -41,34 +41,34 @@ const PreviousCarAddressQuestion = ({
       question="What was your previous address?"
       answer={
         <div className="flex flex-col">
-          <div className="flex flex-col justify-center w-full space-y-4">
-            <InputField
+          <div className="flex flex-col justify-center w-full space-y-5">
+            <InputFieldRound
               className="w-full"
               label="Street address"
               placeholder="Enter street address"
               errorMessage={errors.streetAddress?.message}
               {...register("streetAddress")}
             />
-            <InputField
+            <InputFieldRound
               className="w-full"
               placeholder="Enter unit number"
               label="Apt, suite, etc. (optional)"
               errorMessage={errors.aptSuite?.message}
               {...register("aptSuite")}
             />
-            <InputField
+            <InputFieldRound
               className="w-full"
               label="City"
               placeholder="City"
               errorMessage={errors.city?.message}
               {...register("city")}
             />
-            <div className="flex space-x-4">
+            <div className="flex space-x-5">
               <Controller
                 name="state"
                 control={control}
                 render={({ field }) => (
-                  <SelectField
+                  <SelectFieldRound
                     {...field}
                     options={STATE_OPTIONS}
                     errorMessage={errors.state?.message}
@@ -79,7 +79,7 @@ const PreviousCarAddressQuestion = ({
                   />
                 )}
               />
-              <InputField
+              <InputFieldRound
                 errorMessage={errors.zipCode?.message}
                 maxLength={5}
                 label="Zip code"
@@ -92,7 +92,7 @@ const PreviousCarAddressQuestion = ({
               onClick={handleSubmit(onSubmit)}
               disabled={!isValid}
             >
-              Continue
+              CONTINUE
             </Button>
           </div>
         </div>

@@ -14,9 +14,10 @@ const ButtonYesNo = ({
   return (
     <Button
       onClick={() => onClick(isYes ? true : false)}
-      className="w-full"
+      className="w-full "
       active={active}
       size="lg"
+      color="primary-gradient"
       variant="outlined"
     >
       {isYes ? "Yes" : "No"}
@@ -48,7 +49,7 @@ const YesNoHaveQuestion = ({
       question={question}
       answer={
         <div className="flex flex-col">
-          <div className="flex flex-col space-y-4 w-full">
+          <div className="flex flex-col space-y-6 w-full">
             <ButtonYesNo
               active={isButtonYesActive}
               onClick={(val) => onAnswer(val)}

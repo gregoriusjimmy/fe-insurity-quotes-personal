@@ -1,7 +1,6 @@
 import Button from "@components/react/Button";
 
-import { useCallback, useMemo, useState } from "react";
-import { ArrowRight, ChevronLeft } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import FormLayout from "./FormLayout";
 import ZipCodeQuestion from "./ZipCodeQuestion";
 import YesNoHaveQuestion from "./YesHaveNoQuestion";
@@ -24,103 +23,39 @@ import {
   OCCUPATION_OPTIONS,
   OCCUPATION_OPTIONS_2,
   SCORE_OPTIONS,
+  CAR_END_AT_STEP,
+  CAR_START_AT_STEP,
+  DRIVER_END_AT_STEP,
+  DRIVER_FACTORY,
+  DRIVER_START_AT_STEP,
+  USER_CAR_FACTORY,
+  ZIP_CODE_STEP,
+  ANSWER_DATA_FACTORY,
+  FULL_NAME_STEP,
+  BIRTHDAY_STEP,
+  CAR_ADDRESS_STEP,
+  DRIVER_CAR_FACTORY,
+  START_START_AT_STEP,
+  STEPS_INFO,
 } from "../_constants";
-import { capitalizeString } from "src/helpers";
+import { capitalizeString, scrollToTop } from "src/helpers";
 import TicketQuestion, { type TTicketForm } from "./TicketQuestion";
 import FullNameAnswer from "./FullNameAnswer";
 import BirthdayQuestion from "./BirthdayQuestion";
 import CarAddressQuestion from "./CarAddressQuestion";
-import type { TAddressForm } from "../_constants/schema";
 import PreviousCarAddressQuestion from "./PreviousCarAddressQuestion";
-import dummyInsurances from "@pages/rates/_components/insurances.json";
-import InsuranceItem from "@pages/rates/_components/InsuranceItem";
-
-type TUserCar = {
-  vehicleYear: string;
-  makeBrand: string;
-  model: string;
-  trim: string;
-  ownerShip: string;
-  primaryUse: string;
-  avgMileagePerYear: string;
-};
-
-type TDriver = {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  homeOwnership: string;
-  hasAccident: boolean;
-  tickets?: TTicketForm;
-  needSR22Form: boolean;
-  education: string;
-  occupation: string;
-  creditScore: string;
-  hasFamilyInMilitary: boolean;
-  isMarried: boolean;
-  birthday: string;
-  address: TAddressForm & { hasLivedAtAddressFor60Days: boolean };
-  previousAddress?: TAddressForm;
-};
-
-type TAnswerData = {
-  isHaveCarInsurance: boolean;
-  isInMilitary: boolean;
-  zipCode: string;
-  currentInsurer: string;
-  durationWithInsurer: string;
-  userCars: TUserCar[];
-  drivers: TDriver[];
-};
-
-const USER_CAR_FACTORY: TUserCar = {
-  vehicleYear: "",
-  makeBrand: "",
-  model: "",
-  trim: "",
-  ownerShip: "",
-  primaryUse: "",
-  avgMileagePerYear: "",
-};
-
-const DRIVER_FACTORY: TDriver = {
-  firstName: "",
-  lastName: "",
-  gender: "",
-  homeOwnership: "",
-  hasAccident: false,
-  needSR22Form: false,
-  education: "",
-  creditScore: "",
-  hasFamilyInMilitary: false,
-  occupation: "",
-  isMarried: false,
-  birthday: "",
-  address: {
-    city: "",
-    state: "",
-    streetAddress: "",
-    zipCode: "",
-    hasLivedAtAddressFor60Days: false,
-  },
-};
-
-const CAR_START_AT_STEP = 3;
-const CAR_END_AT_STEP = 10;
-const DRIVER_START_AT_STEP = 12;
-const DRIVER_END_AT_STEP = 23;
+import type { TAnswerData, TUserCar, TDriver } from "../_constants/types";
+import OfferList from "./OfferList";
+import FeaturedCarrier from "./FeaturedCarrier";
+import BackButton from "./BackButton";
+import Stepper from "@components/react/Stepper";
 
 const Inquiry = () => {
-  const [answerData, setAnswerData] = useState<TAnswerData>({
-    isHaveCarInsurance: false,
-    isInMilitary: false,
-    zipCode: "",
-    currentInsurer: "",
-    durationWithInsurer: "",
-    userCars: [USER_CAR_FACTORY],
-    drivers: [DRIVER_FACTORY],
-  });
+  const [answerData, setAnswerData] =
+    useState<TAnswerData>(ANSWER_DATA_FACTORY);
   const [currentStep, setCurrentStep] = useState<string | number>(1);
+  const [currentStepStepper, setCurrentStepStepper] = useState(1);
+  const [stepperProgression, setStepperProgression] = useState(0);
   const [answeredStep, setAnsweredStep] = useState<Array<string | number>>([]);
   const [isFinished, setIsFinished] = useState(false);
   const [isSeeOfferList, setIsSeeOfferList] = useState(false);
@@ -142,10 +77,12 @@ const Inquiry = () => {
     if (!length) return 0;
     return length;
   }, [answeredStep]);
+
   const currentCarInput = useMemo(
     () => answerData.userCars[currentCarIndex],
     [answerData.userCars, currentCarIndex],
   );
+
   const currentCarFullName = useMemo(
     () => `${currentCarInput?.makeBrand} ${currentCarInput?.model}`,
     [currentCarInput],
@@ -239,10 +176,13 @@ const Inquiry = () => {
 
   const onNextStep = useCallback(() => {
     if (typeof currentStep === "string") return;
+
+    scrollToTop();
     onSetCurrentStep(currentStep + 1);
   }, [currentStep, onSetCurrentStep]);
 
   const handleGoBack = useCallback(() => {
+    scrollToTop();
     setAnsweredStep((prev) => {
       if (prev.length === 0) return prev; // No steps to go back to
       const updatedSteps = [...prev];
@@ -253,9 +193,67 @@ const Inquiry = () => {
         setCurrentStep(lastStep); // Update the current step
       }
 
+      if (
+        !updatedSteps.includes(ZIP_CODE_STEP) &&
+        currentStep === ZIP_CODE_STEP
+      ) {
+        onSetAnswerData("zipCode", "");
+      }
+
+      if (
+        updatedSteps.filter((step) => step === FULL_NAME_STEP).length ===
+          currentDriverIndex &&
+        currentStep === FULL_NAME_STEP
+      ) {
+        onSetCurrentDriverInput("firstName", "");
+        onSetCurrentDriverInput("lastName", "");
+      }
+
+      if (
+        updatedSteps.filter((step) => step === BIRTHDAY_STEP).length ===
+          currentDriverIndex &&
+        currentStep === BIRTHDAY_STEP
+      ) {
+        onSetCurrentDriverInput("birthday", "");
+      }
+
+      if (
+        updatedSteps.filter((step) => step === CAR_ADDRESS_STEP).length ===
+          currentDriverIndex &&
+        currentStep === CAR_ADDRESS_STEP
+      ) {
+        onSetCurrentDriverInput("address", DRIVER_CAR_FACTORY);
+      }
+
       return updatedSteps;
     });
-  }, []);
+  }, [
+    currentDriverIndex,
+    currentStep,
+    onSetAnswerData,
+    onSetCurrentDriverInput,
+  ]);
+
+  useEffect(() => {
+    let currentStepTemp = 1;
+    let currentProgression = 0;
+    for (const val of Object.values(STEPS_INFO)) {
+      if (
+        answeredStep.includes(val.START_STEP) ||
+        currentStep === val.START_STEP
+      ) {
+        currentStepTemp = val.STEP_ORDER;
+        const match = currentStep.toString().match(/^\d+/);
+        const firstNumber = match ? parseInt(match[0], 10) : null;
+        if (firstNumber !== null) {
+          const dividend = firstNumber - val.START_STEP;
+          currentProgression = (dividend / val.TOTAL_STEP) * 100;
+        }
+      }
+    }
+    setCurrentStepStepper(currentStepTemp);
+    setStepperProgression(currentProgression);
+  }, [answeredStep, currentStep]);
 
   const isNextDriver = useMemo(
     () => answeredStep.includes(DRIVER_END_AT_STEP),
@@ -264,7 +262,7 @@ const Inquiry = () => {
 
   const map: Record<number | string, React.ReactNode> = useMemo(
     () => ({
-      1: (
+      [START_START_AT_STEP]: (
         <YesNoHaveQuestion
           intro="Let's start with the basics"
           question="Do you currently have car insurance?"
@@ -312,8 +310,9 @@ const Inquiry = () => {
           }}
         />
       ),
-      2: (
+      [ZIP_CODE_STEP]: (
         <ZipCodeQuestion
+          defaultValues={{ zipCode: answerData.zipCode }}
           note="We can personalize your rate more with the location of your
                 vehicle. You'll be able to compare offers from top carriers that
                 are available in your area."
@@ -438,7 +437,7 @@ const Inquiry = () => {
             question="Would you like to add another vehicle?"
             answer={
               <div className="flex flex-col space-y-8">
-                <div className="mx-auto text-foreground-900">
+                <div className="mx-auto text-lg text-center font-bold text-primary-500">
                   You have reached the maximum amount of vehicles!
                 </div>
                 <Button
@@ -448,7 +447,7 @@ const Inquiry = () => {
                     onNextStep();
                   }}
                 >
-                  Continue
+                  CONTINUE
                 </Button>
               </div>
             }
@@ -476,37 +475,37 @@ const Inquiry = () => {
               <div className="flex flex-col space-y-7">
                 {answerData.userCars.map((car, idx) => (
                   <div className="flex flex-col" key={idx}>
-                    <div className="text-primary-600 font-bold tracking-wider text-sm mb-1">
+                    <div className="text-secondary-500 tracking-[0.3rem] text-lg lg:text-xl mb-2 lg:mb-4 font-extrabold">
                       VEHICLE {idx + 1}
                     </div>
-                    <div className="font-medium text-2xl mb-4">
+                    <div className="font-bold text-primary-500 text-2xl lg:text-4xl mb-4">
                       {car.vehicleYear} {car.makeBrand} {car.model}
                     </div>
-                    <div className="text-sm max-w-[70%] flex flex-col space-y-3">
+                    <div className=" flex flex-col space-y-3 text-xl">
                       <div className="w-full flex justify-between ">
-                        <span className="text-foreground-500">Trim</span>
+                        <span className="text-foreground-900">Trim</span>
                         <span className="text-foreground-900">{car.trim}</span>
                       </div>
                       <div className="w-full flex justify-between ">
-                        <span className="text-foreground-500">Ownership</span>
+                        <span className="text-foreground-900">Ownership</span>
                         <span className="text-foreground-900">
                           {car.ownerShip}
                         </span>
                       </div>
                       <div className="w-full flex justify-between ">
-                        <span className="text-foreground-500">Primary Use</span>
+                        <span className="text-foreground-900">Primary Use</span>
                         <span className="text-foreground-900">
                           {car.primaryUse}
                         </span>
                       </div>
                       <div className="w-full flex justify-between ">
-                        <span className="text-foreground-500">Mileage</span>
+                        <span className="text-foreground-900">Mileage</span>
                         <span className="text-foreground-900">
                           {car.avgMileagePerYear}
                         </span>
                       </div>
                       <div className="w-full flex justify-between ">
-                        <span className="text-foreground-500">
+                        <span className="text-foreground-900">
                           Full Coverage
                         </span>
                         <span className="text-foreground-900">Yes</span>
@@ -522,7 +521,7 @@ const Inquiry = () => {
                 className="w-[70%] mx-auto lg:mx-0 mt-12"
                 size="lg"
               >
-                Continue
+                CONTINUE
               </Button>
             </div>
           }
@@ -538,6 +537,10 @@ const Inquiry = () => {
           question={`What's ${isNextDriver ? "their" : "your"} name?`}
           answer={
             <FullNameAnswer
+              defaultValues={{
+                firstName: currentDriverInput.firstName,
+                lastName: currentDriverInput.lastName,
+              }}
               onAnswer={({ firstName, lastName }) => {
                 onSetCurrentDriverInput(
                   "firstName",
@@ -603,7 +606,7 @@ const Inquiry = () => {
           onNo={() => {
             onSetCurrentDriverInput("hasAccident", false);
             if (isNextDriver) {
-              onSetCurrentStep(21); //birthday
+              onSetCurrentStep(21);
               return;
             }
             onNextStep();
@@ -683,15 +686,16 @@ const Inquiry = () => {
           note="Your marital status can affect your rate, and your spouse should be included on your policy."
           question={`${currentDriverInput.firstName}, are you married?`}
           onAnswer={(isYes) => {
-            onSetCurrentDriverInput("hasFamilyInMilitary", isYes);
+            onSetCurrentDriverInput("isMarried", isYes);
             onNextStep();
           }}
         />
       ),
-      21: (
+      [BIRTHDAY_STEP]: (
         <BirthdayQuestion
           isNextDriver={isNextDriver}
           driverFirstName={currentDriverInput.firstName}
+          defaultValues={{ birthday: currentDriverInput.birthday }}
           onAnswer={(val) => {
             onSetCurrentDriverInput("birthday", val);
             if (isNextDriver) {
@@ -702,9 +706,9 @@ const Inquiry = () => {
           }}
         />
       ),
-      22: (
+      [CAR_ADDRESS_STEP]: (
         <CarAddressQuestion
-          // defaultValues={currentDriverInput.address}
+          defaultValues={currentDriverInput.address}
           onAnswer={(val) => {
             onSetCurrentDriverInput("address", val);
             if (val.hasLivedAtAddressFor60Days) {
@@ -717,7 +721,7 @@ const Inquiry = () => {
       ),
       ["22.A"]: (
         <PreviousCarAddressQuestion
-          // defaultValues={currentDriverInput.address}
+          defaultValues={currentDriverInput.previousAddress}
           onAnswer={(val) => {
             onSetCurrentDriverInput("previousAddress", val);
             onSetCurrentStep(23);
@@ -741,7 +745,7 @@ const Inquiry = () => {
                     onNextStep();
                   }}
                 >
-                  Continue
+                  CONTINUE
                 </Button>
               </div>
             }
@@ -758,18 +762,18 @@ const Inquiry = () => {
                       setIsFinished(true);
                     }}
                   >
-                    No, get my quotes
+                    NO, GET MY QUOTES
                   </Button>
-                  <button
+                  <Button
+                    variant="outlined"
                     onClick={() => {
                       onSetCurrentStep(DRIVER_START_AT_STEP);
                     }}
-                    className="underline text-foreground-700"
                   >
                     Yes, I want to insure another driver
-                  </button>
+                  </Button>
                 </div>
-                <div className="mt-7 text-sm text-foreground-500 text-center">
+                <div className="mt-8 lg:mt-10 text-lg text-primary-500 ">
                   By clicking &quot;Get quotes&quot;, you consent to insurance
                   carriers and other insurance professionals obtaining driving
                   related and credit-based insurance score reports where
@@ -785,8 +789,13 @@ const Inquiry = () => {
       answerData.currentInsurer,
       answerData.drivers.length,
       answerData.userCars,
+      answerData.zipCode,
       currentCarFullName,
+      currentDriverInput.address,
+      currentDriverInput.birthday,
       currentDriverInput.firstName,
+      currentDriverInput.lastName,
+      currentDriverInput.previousAddress,
       isNextDriver,
       onNextStep,
       onSetAnswerData,
@@ -797,84 +806,33 @@ const Inquiry = () => {
   );
 
   if (isSeeOfferList) {
-    return (
-      <div className="flex flex-col layout mt-4 lg:max-w-4xl">
-        <div className="font-bold text-2xl mb-4">
-          Get offers from featured carriers
-        </div>
-        <div className="mb-10">
-          Get a quote directly from an insurance carrier in just a few more
-          clicks.
-        </div>
-        <div className="flex flex-col space-y-4 lg:space-y-6">
-          {dummyInsurances.data.map((insurance, idx) => (
-            <InsuranceItem
-              insurance={insurance}
-              key={idx}
-              isFeatured={idx == 1}
-            />
-          ))}
-        </div>
-      </div>
-    );
+    return <OfferList />;
   }
 
   if (isFinished) {
     return (
-      <div className="flex flex-col layout mt-4 lg:max-w-3xl">
-        <div className="font-bold text-2xl mb-10">Your featured carrier</div>
-        <div className="flex flex-col items-center py-8 px-8 rounded-lg shadow-xl">
-          <img
-            className="w-[12rem] h-auto mb-5"
-            src="https://d29u10q7qlh006.cloudfront.net/i/i/47/Hw0rpgvXKj7RnbyrQocqXd3NLMw.png"
-            alt="Progresssive"
-          />
-          <div className="font-bold mb-4 text-center">
-            Great news! We&apos;ve matched you with Progressive
-          </div>
-          <div className="text-foreground-700 text-center mb-7">
-            Continue to get your personalized rate and buy your policy in
-            minutes.
-          </div>
-          <Button
-            className="w-full max-w-sm"
-            onClick={() => {
-              setIsSeeOfferList(true);
-            }}
-          >
-            Continue
-          </Button>
-          <span className="mt-2 text-foreground-600 text-sm text-center">
-            On Progressive&apos;s website
-          </span>
-        </div>
-        <div className="mt-6 lg:mt-8 text-foreground-700 flex flex-col lg:flex-row items-start lg:justify-center">
-          <div> Want some other carrier options?</div>
-          <button
-            className="text-primary-500 underline lg:ml-2"
-            onClick={() => {
-              setIsSeeOfferList(true);
-            }}
-          >
-            See more offers <ArrowRight className="inline-flex w-4 h-4" />
-          </button>
-        </div>
-      </div>
+      <FeaturedCarrier
+        onClickContinue={() => {
+          setIsSeeOfferList(true);
+        }}
+      />
     );
   }
 
   return (
-    <div className="flex flex-col layout pt-4 pb-7 lg:pt-14 lg:pb-[6.5rem]">
-      {!!answeredStep.length && (
-        <button
-          onClick={handleGoBack}
-          className="flex items-center hover:bg-primary-400/10 px-1 py-2 rounded-md w-fit mb-4"
-        >
-          <ChevronLeft className="w-6 h-6 mr-2" />
-          <span className="font-semibold lg:text-lg ">Back</span>
-        </button>
-      )}
-      {map[currentStep]}
+    <div className="margin-header flex-col">
+      <div className="flex flex-col layout pt-[4.43rem] pb-7 lg:pt-[8rem] lg:pb-[0rem] lg:w-full lg:h-full lg:items-center lg:justify-center">
+        <div className="flex flex-col w-full">
+          {!!answeredStep.length && <BackButton onBack={handleGoBack} />}
+          {map[currentStep]}
+        </div>
+      </div>
+      <Stepper
+        className="mt-[4rem] lg:mt-[6rem]"
+        currentStepProgression={stepperProgression}
+        currentStep={currentStepStepper}
+        steps={["GETTING STARTED", "VEHICLES", "DRIVERS", "RESULTS"]}
+      />
     </div>
   );
 };

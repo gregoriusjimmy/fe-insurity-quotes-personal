@@ -1,0 +1,27 @@
+.markdown {
+  font-size: 1.0625rem;
+  line-height: 1.66;
+  color: #3e4b82;
+}
+
+@media (min-width: 1024px) {
+  .markdown {
+    font-size: 1.375rem; /* Tailwind's lg font size equivalent */
+  }
+}
+
+.markdown p {
+  height: fit-content;
+}
+
+.markdown ul,
+.markdown ol {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  list-style-type: disc;
+}
+
+.markdown li {
+  margin: 0 1rem;
+}

@@ -7,8 +7,11 @@ export default {
     borderRadius:{
         '2lg':'0.625rem'
       },
+      backgroundImage:{
+        'custom-radial': 'radial-gradient(119.17% 280.47% at 125.78% -61.67%, #22C6C6 0%, #353572 100%)',
+      },
 			fontFamily: {
-        primary: ['Inter', ...defaultTheme.fontFamily.sans],
+        primary: ['Lato', ...defaultTheme.fontFamily.sans],
       },
       spacing:{
         '1.75':'0.4375rem',
@@ -18,6 +21,9 @@ export default {
         '6.5':'1.625rem',
       },
 			colors: {
+        primaryLight: {
+          500: 'rgba(var(--primaryLight-500))',
+        },
         primary: {
           50: 'rgba(var(--primary-50))',
           100: 'rgba(var(--primary-100))',
@@ -29,6 +35,18 @@ export default {
           700: 'rgba(var(--primary-700))',
           800: 'rgba(var(--primary-800))',
           900: 'rgba(var(--primary-900))',
+        },
+        secondary: {
+          50: 'rgba(var(--secondary-50))',
+          100: 'rgba(var(--secondary-100))',
+          200: 'rgba(var(--secondary-200))',
+          300: 'rgba(var(--secondary-300))',
+          400: 'rgba(var(--secondary-400))',
+          500: 'rgba(var(--secondary-500))',
+          600: 'rgba(var(--secondary-600))',
+          700: 'rgba(var(--secondary-700))',
+          800: 'rgba(var(--secondary-800))',
+          900: 'rgba(var(--secondary-900))',
         },
 				foreground: {
           50: 'rgba(var(--foreground-50))',
@@ -74,6 +92,9 @@ export default {
         orange: {
           500: 'rgba(var(--orange-500))',
           600: 'rgba(var(--orange-600))',
+        },
+        purple:{
+          500: 'rgba(var(--purple-500))',
         },
         // background: 'rgba(var(--background))',
         black: 'rgba(var(--black))',

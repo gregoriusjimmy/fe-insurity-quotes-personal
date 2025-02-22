@@ -1,14 +1,16 @@
 import Button from "@components/react/Button";
-import InputField from "@components/react/InputField";
+import InputFieldRound from "@components/react/InputFieldRound";
 import { useState } from "react";
 
+type TFullNameForm = { firstName: string; lastName: string };
 interface FullNameAnswerProps {
-  onAnswer: (val: { firstName: string; lastName: string }) => void;
+  onAnswer: (val: TFullNameForm) => void;
+  defaultValues?: TFullNameForm;
 }
 
-const FullNameAnswer = ({ onAnswer }: FullNameAnswerProps) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+const FullNameAnswer = ({ defaultValues, onAnswer }: FullNameAnswerProps) => {
+  const [firstName, setFirstName] = useState(defaultValues?.firstName || "");
+  const [lastName, setLastName] = useState(defaultValues?.lastName || "");
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
@@ -20,15 +22,19 @@ const FullNameAnswer = ({ onAnswer }: FullNameAnswerProps) => {
 
   return (
     <div className="flex flex-col">
-      <InputField
-        className="w-full mb-4"
+      <InputFieldRound
+        className="w-full"
+        containerClassName="mb-6"
         label="Legal first name"
+        placeholder="First name"
         validationRegex={/^[a-zA-Z\s]*$/}
         value={firstName}
         onChange={handleFirstNameChange}
       />
-      <InputField
-        className="w-full mb-6"
+      <InputFieldRound
+        className="w-full"
+        placeholder="Last name"
+        containerClassName="mb-[3rem]"
         label="Last name"
         validationRegex={/^[a-zA-Z\s]*$/}
         value={lastName}
@@ -41,7 +47,7 @@ const FullNameAnswer = ({ onAnswer }: FullNameAnswerProps) => {
         }}
         size="lg"
       >
-        Continue
+        CONTINUE
       </Button>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import cn from "@lib/cn"; // Optional: If you have a classnames utility
+import { CheckmarkIcon } from "./icons";
 
 interface CheckboxFieldProps extends React.ComponentPropsWithRef<"input"> {
   label?: string;
@@ -22,21 +23,17 @@ const CheckboxField = forwardRef<HTMLInputElement, CheckboxFieldProps>(
             type="checkbox"
             {...otherProps}
             className={cn(
-              "appearance-none cursor-pointer shrink-0 w-5 h-5 border border-gray-500 rounded bg-foreground-1 checked:bg-primary-500 checked:border-primary-500 focus:ring-primary-400 focus:ring-offset-2 focus:ring",
-              "peer", // Used for targeting with pseudo-classes
+              "appearance-none rounded-full cursor-pointer  shadow-[0px_4px_16px_0px_#679DDD91] shrink-0 w-6.5 h-6.5 border-1 border-[#3535724D] checked:border-none bg-[#F4F6FF] ",
+              "peer",
               className,
             )}
           />
-          {/* Checkmark */}
-          <svg
-            className="absolute top-0 left-0 w-5 h-5 fill-none stroke-white stroke-2 hidden peer-checked:block pointer-events-none"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12.5l4 4 10-10" />
-          </svg>
+          <span className="absolute inset-0 left-0 items-center justify-center  top-0 hidden peer-checked:flex pointer-events-none">
+            <CheckmarkIcon className="  w-5 h-5  " />
+          </span>
         </div>
         {label && (
-          <p className="ml-2 text-foreground-900 select-none">{label}</p>
+          <p className="ml-4 text-primary-500 select-none font-bold">{label}</p>
         )}
         {errorMessage && (
           <div className="text-red-500 text-sm ml-2">{errorMessage}</div>

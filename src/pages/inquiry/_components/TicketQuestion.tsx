@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState } from "react";
 import YesNoHaveQuestion from "./YesHaveNoQuestion";
 import { Minus } from "lucide-react";
 import { Plus } from "lucide-react";
-import InputField from "@components/react/InputField";
 import Button from "@components/react/Button";
+import InputFieldRound from "@components/react/InputFieldRound";
 
 type TTicketItem = {
   count: number;
@@ -186,7 +186,7 @@ const TicketQuestion = ({
       addition={
         hasTickets && (
           <div className="flex flex-col justify-center w-full mt-8">
-            <div className="text-center text-sm mb-4">
+            <div className="text-center  mb-4 text-lg">
               All good—it happens. How many?
             </div>
             {Object.keys(ticketForm).map((key, idx) => (
@@ -195,28 +195,27 @@ const TicketQuestion = ({
                 key={idx}
               >
                 <div className="flex justify-between pt-3 w-full">
-                  <div className="text-foreground-700">{key}</div>
+                  <div className="text-foreground-700 text-lg">{key}</div>
                   <div className="flex items-center space-x-4">
                     <Minus
                       onClick={() => handleClickMinus(key as keyof TTicketForm)}
-                      className="text-foreground-700 w-6 h-6 cursor-pointer"
+                      className="text-foreground-900 w-6 h-6 cursor-pointer"
                     />
-                    <span className="text-lg font-bold select-none">
+                    <span className="text-xl font-bold select-none lg:text-3xl">
                       {ticketForm[key as keyof TTicketForm].count}
                     </span>
                     <Plus
                       onClick={() => handleClickPlus(key as keyof TTicketForm)}
-                      className="text-primary-700 w-6 h-6 cursor-pointer"
+                      className="text-foreground-900 w-6 h-6 cursor-pointer"
                     />
                   </div>
                 </div>
                 {Array.from(
                   { length: ticketForm[key as keyof TTicketForm].count },
                   (_, index) => (
-                    <div className="w-full flex flex-col pt-4" key={index}>
-                      <div className="mb-1">Accident #{index + 1}</div>
-                      <InputField
-                        errorMessage={dateErrors[key]?.[index]}
+                    <div className="w-full flex flex-col pt-4 mb-4" key={index}>
+                      <div className="mb-1 text-lg">Accident #{index + 1}</div>
+                      <InputFieldRound
                         maxLength={7}
                         label="Date of incident"
                         placeholder="MM/YYYY"
@@ -248,7 +247,7 @@ const TicketQuestion = ({
               onClick={() => onYes(ticketForm)}
               disabled={hasErrors || (hasTickets && formIsEmpty)}
             >
-              Continue
+              CONTINUE
             </Button>
           </div>
         )

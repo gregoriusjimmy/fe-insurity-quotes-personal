@@ -1,46 +1,57 @@
 import cn from "@lib/cn";
 import type { TInsuranceItem } from "../_constants/types";
 import Button from "@components/react/Button";
+import { ArrowRightIcon } from "@components/react/icons";
+import { useState, useEffect } from "react";
 
 type InsuranceItem = {
   insurance: TInsuranceItem;
-  isFeatured?: boolean;
+  className?: string;
 };
 
-const InsuranceItem = ({ insurance, isFeatured }: InsuranceItem) => {
+const InsuranceItem = ({ insurance, className }: InsuranceItem) => {
+  const [isGradient, setIsGradient] = useState(false);
+
+  useEffect(() => {
+    setIsGradient(Math.random() < 0.5);
+  }, []);
+
   return (
-    <div className=" flex flex-col ">
-      {isFeatured && (
-        <div className="bg-primary-900 rounded-t-md py-2 w-fit text-foreground-50 px-8 shadow-md">
-          ⭐ Featured offer
-        </div>
+    <div
+      className={cn(
+        "flex flex-col bg-background-1 hover:bg-[#F3FFFF] transition-colors cursor-pointer shadow-[0px_4px_99px_0px_#679DDD54] rounded-tr-[1.875rem] rounded-tl-md  pt-[2.12rem] pb-[4rem] px-6.5 relative",
+        className,
       )}
-      <div
-        className={cn(
-          "flex flex-col lg:flex-row bg-background-1  rounded-b-md shadow-lg  py-8 px-8 lg:w-full lg:space-x-10 lg:justify-evenly lg:items-center",
-          !isFeatured && "rounded-t-md",
-        )}
-      >
-        <img
-          className="w-[12rem] h-auto lg:h-auto mx-auto my-auto lg:mx-0 shrink-0 lg:w-[20%]"
-          width={192}
-          src={insurance.image}
-          alt={insurance.name}
+    >
+      <div className="absolute flex justify-center inset-x-0 -top-[1.28125rem]">
+        <div className="shadow-[0px_4px_16px_0px_#679DDD91] w-[2.5625rem] h-[2.5625rem] rounded-full bg-[#F4F6FF] opacity-60" />
+        <div
+          className={cn(
+            "absolute top-2.5 w-[1.3125rem] h-[1.3125rem] rounded-full",
+            isGradient
+              ? "bg-[radial-gradient(119.17%_304.47%_at_67.78%_-61.67%,_#679DDD_0%,_#3E4B82_100%)]"
+              : "bg-secondary-500",
+          )}
         />
-        <ol className="text-sm flex max-w-lg flex-col space-y-2 my-5 md:my-7 lg:my-0 sm:mx-auto lg:w-[60%] ml-5 list-disc ">
-          {insurance.texts?.map((text, idx) => (
-            <li className="" key={idx}>
-              {text}
-            </li>
-          ))}
-        </ol>
-        <Button
-          size="lg"
-          className="max-w-lg mx-auto w-full lg:w-[20%] lg:shrink-0 lg:h-fit lg:my-auto"
-        >
-          View Rate
-        </Button>
       </div>
+      <img
+        className="w-[10rem] h-20 object-contain shrink-0 mb-8"
+        width={161}
+        height={78}
+        src={insurance.image}
+        alt={insurance.name}
+      />
+      <ol className="text-lg flex flex-col space-y-4.5 text-primary-500 list-disc ml-5 mb-8 lg:h-full">
+        {insurance.texts?.map((text, idx) => (
+          <li className="" key={idx}>
+            {text}
+          </li>
+        ))}
+      </ol>
+      <Button size="md" className="w-fit flex items-center">
+        <span>VIEW RATE</span>{" "}
+        <ArrowRightIcon className="text-white w-4 h-4 ml-11 group-hover:ml-16 transition-all" />
+      </Button>
     </div>
   );
 };

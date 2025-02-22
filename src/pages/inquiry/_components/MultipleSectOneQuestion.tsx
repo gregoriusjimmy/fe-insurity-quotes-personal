@@ -1,8 +1,9 @@
 import Button from "@components/react/Button";
-import SelectField, { type TOption } from "@components/react/SelectField";
+import { type TOption } from "@components/react/SelectField";
 import cn from "@lib/cn";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import FormLayout from "./FormLayout";
+import SelectFieldRound from "@components/react/SelectFieldRound";
 
 const MultipleSelectOneQuestion = ({
   question,
@@ -32,13 +33,13 @@ const MultipleSelectOneQuestion = ({
         <div className="flex flex-col space-y-8">
           <div
             className={cn(
-              "grid grid-cols-2 lg:grid-cols-3 gap-4",
+              "grid grid-cols-2 lg:grid-cols-3 gap-6",
               isSmall && "flex flex-col",
             )}
           >
             {options.map((opt, idx) => (
               <Button
-                className="w-full break-normal px-1"
+                className="w-full break-normal px-1 "
                 key={idx}
                 onClick={() => onAnswer(opt.value)}
                 variant="outlined"
@@ -48,8 +49,9 @@ const MultipleSelectOneQuestion = ({
             ))}
           </div>
           {options2?.length && (
-            <SelectField
-              className="whitespace-pre w-fit"
+            <SelectFieldRound
+              value={undefined}
+              className="whitespace-pre w-fit text-xl"
               onChange={(val) => onAnswer(val)}
               placeholder={placeholder}
               containerClassName="w-fit mx-auto"

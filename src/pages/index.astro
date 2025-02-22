@@ -1,11 +1,151 @@
 ---
-import Welcome from "../components/Welcome.astro";
+import { API_URL, ENV } from "src/config";
 import Layout from "../layouts/Layout.astro";
+import RatesFinder from "./rates/_components/RatesFinder";
+import { EENV } from "@constants/index";
+import type { TGeoLocationRes } from "src/api/geo/types";
+import Button from "@components/react/Button";
+import { ArrowRightIcon } from "@components/react/icons";
+import { Image } from "astro:assets";
+import type { TGetLatestArticlesRes, TArticle } from "@api/articles/types";
+import TestimonialCarousel from "./_components/TestimonialCarousel";
+import ButtonLink from "@components/react/ButtonLink";
+import Articles from "./_components/Articles";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+let city = "your area";
+let zip = "";
+let articles: TArticle[] = [];
+
+try {
+  const res = await fetch(`${API_URL}/geo/get-ip-data`, {
+    headers:
+      ENV === EENV.DEV
+        ? {
+            "X-Forwarded-For": "154.38.158.157", // Simulating the IP address in development
+          }
+        : {},
+  });
+  const data: TGeoLocationRes = await res.json();
+  city = data.city || city;
+  zip = data.zip || zip;
+} catch (error) {
+  console.error(error);
+}
+
+try {
+  const res = await fetch(`${API_URL}/articles/get-latest-articles`);
+  const data: TGetLatestArticlesRes = await res.json();
+  articles = [...data?.data];
+} catch (error) {
+  console.error(error);
+}
 ---
 
 <Layout>
-  <Welcome />
+  <div
+    class=`margin-header lg:bg-[url('/images/home-hero-desktop-2x.webp')] bg-[url('/images/home-hero-mobile-2x.webp')]  bg-no-repeat bg-cover bg-center w-full`
+  >
+    <div
+      class="layout pt-[4.7rem] pb-[6.8rem] lg:pb-[12rem] lg:pt-[7.125rem] z-20"
+    >
+      <h1
+        class="text-3xl lg:text-[5.625rem] font-extrabold text-white leading-[1.2]"
+      >
+        Safety Agency <br class="lg:inline hidden" />
+        in Insurance Marketplace
+      </h1>
+      <h1
+        class="text-white font-bold lg:font-medium text-lg mt-14 lg:pt-11 lg:text-3xl lg:leading-snug"
+      >
+        Your top matches Compare car insurance options side-by-side to get <br
+          class="hidden lg:inline"
+        /> the best rate and right offer for you.
+      </h1>
+      <div
+        class="p-1.75 bg-[rgba(34,198,198,0.3)] w-fit rounded-full mt-9 lg:mt-12"
+      >
+        <a
+          href="/rates"
+          onclick="window.open('/inquiry', '_blank');"
+          class="cursor-pointer flex items-center text-sm lg:text-base px-5 lg:px-8 py-2 lg:py-3.5 rounded-full bg-white hover:bg-gradient-primary transition-all hover:text-white text-[#3E4B82] font-extrabold"
+        >
+          <span> GET A QUOTE</span>
+          <ArrowRightIcon className="ml-2 lg:ml-3" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="-mt-[4rem] lg:mt-[-7rem]">
+    <RatesFinder client:load zipCode={zip || ""} />
+  </div>
+  <div
+    class="flex flex-col mt-[5rem] lg:flex-row relative lg:mt-[8.56rem] lg:items-center"
+  >
+    <div class="layout relative z-30">
+      <h1
+        class="text-primary-500 text-4xl mb-10 lg:mb-11 relative block font-black lg:text-[3.75rem]"
+      >
+        Insurity Quotes
+        <h1
+          class="text-[6rem] lg:text-[10.62rem] lg:-top-[4.7rem] -top-[3rem] left-0 -tracking-[0.1rem] font-black absolute bg-clip-text text-transparent bg-[linear-gradient(180deg,#679DDD_-200%,rgba(103,157,221,0)_90%)]"
+        >
+          ABOUT
+        </h1>
+      </h1>
+      <p
+        class="text-primary-500 leading-relaxed mb-10 lg:mb-11 lg:text-[1.375rem] max-w-[32.62rem]"
+      >
+        We understand that protecting your vehicle is about more than just
+        complying with legal requirements—it’s about safeguarding your peace of
+        mind. That’s why we connect you with the best car insurance options
+        available, ensuring you get the coverage you need at a price you can
+        afford.
+      </p>
+      <Button isFunnel client:load
+        >LET'S START NOW <ArrowRightIcon className="w-5.5 h-5.5 ml-2" />
+      </Button>
+    </div>
+    <div class="mt-[7rem]">
+      <Image
+        src="/images/caretakers-mobile-2x.webp"
+        alt="About"
+        class="w-full lg:hidden"
+        width="426"
+        height="345"
+      />
+      <div class="h-[52.25rem] w-fit hidden lg:invisible lg:block"></div>
+      <Image
+        src="/images/caretakers-desktop-2x.webp"
+        alt="About"
+        class="w-fit max-h-[52.25rem] hidden lg:block absolute lg:mt-0 lg:right-0 lg:top-0"
+        width="1034"
+        height="836"
+      />
+    </div>
+  </div>
+  <div
+    class="lg:bg-[url('/images/testimonial-desktop.webp')] bg-[url('/images/testimonial-mobile-2x.webp')] mt-[3.1rem] lg:mt-[7.4rem] w-full bg-no-repeat bg-cover bg-center"
+  >
+    <TestimonialCarousel client:load />
+  </div>
+  <div class="mt-[6.68rem] lg:mt-[7.5rem] flex flex-col lg:justify-start">
+    <div
+      class="layout flex flex-col lg:flex-row lg:items-center lg:justify-between mb-[4.37rem] lg:mb-[3.75rem]"
+    >
+      <div class="flex flex-col">
+        <h1
+          class="text-gradient-primary font-extrabold text-3xl lg:text-6xl mb-5"
+        >
+          Insurity News & Insights
+        </h1>
+        <p class="text-primary-500 text-[1.0625rem] lg:text-[1.375rem] mb-9">
+          Explore the latest insights, trends and tips from the Car Insurance
+        </p>
+      </div>
+      <Button isFunnel className="w-full max-w-[16.875rem]">GET A QUOTE</Button>
+    </div>
+    <div class="layout lg:de-layout">
+      <Articles articles={articles} client:only="react" />
+    </div>
+  </div>
 </Layout>

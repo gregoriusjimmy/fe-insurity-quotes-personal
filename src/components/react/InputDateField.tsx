@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import InputField from "@components/react/InputField";
 import dayjs from "dayjs";
+import InputFieldRound from "./InputFieldRound";
 
 type TInputDateFieldProps = {
   value: string;
@@ -119,7 +119,7 @@ const InputDateField = ({
   );
 
   return (
-    <InputField
+    <InputFieldRound
       className={className}
       label="Date (DD/MM/YYYY)"
       placeholder="DD/MM/YYYY"

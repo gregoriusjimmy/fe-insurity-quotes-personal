@@ -1,18 +1,20 @@
 import Button from "@components/react/Button";
-import InputField from "@components/react/InputField";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { type TZipCodeForm, zipCodeSchema } from "../_constants/schema";
 import FormLayout from "./FormLayout";
+import InputFieldRound from "@components/react/InputFieldRound";
 
 const ZipCodeQuestion = ({
   question,
   note,
+  defaultValues,
   onAnswer,
 }: {
   question: ReactNode;
   note?: string;
+  defaultValues?: TZipCodeForm;
   onAnswer: (val: string) => void;
 }) => {
   const {
@@ -22,6 +24,7 @@ const ZipCodeQuestion = ({
   } = useForm<TZipCodeForm>({
     resolver: zodResolver(zipCodeSchema),
     mode: "onSubmit",
+    defaultValues,
   });
 
   const onSubmit = (data: TZipCodeForm) => {
@@ -33,8 +36,8 @@ const ZipCodeQuestion = ({
       note={note}
       question={question}
       answer={
-        <div className="flex flex-col space-y-4">
-          <InputField
+        <div className="flex flex-col space-y-9">
+          <InputFieldRound
             maxLength={5}
             className="w-full"
             errorMessage={errors.zipCode?.message}
@@ -47,7 +50,7 @@ const ZipCodeQuestion = ({
             onClick={handleSubmit(onSubmit)}
             size="lg"
           >
-            Continue
+            CONTINUE
           </Button>
         </div>
       }

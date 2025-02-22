@@ -3,26 +3,32 @@ import FormLayout from "./FormLayout";
 import InputDateField from "@components/react/InputDateField";
 import Button from "@components/react/Button";
 
+type TBirthdayForm = {
+  birthday: string;
+};
+
 type BirthdayQuestionProps = {
   driverFirstName: string;
   isNextDriver: boolean;
+  defaultValues?: TBirthdayForm;
   onAnswer: (birthday: string) => void;
 };
 
 const BirthdayQuestion = ({
   driverFirstName,
   isNextDriver,
+  defaultValues,
   onAnswer,
 }: BirthdayQuestionProps) => {
-  const [val, setVal] = useState("");
-  const [hasErrors, setHasErrors] = useState(false); // Track error state
+  const [val, setVal] = useState(defaultValues?.birthday || "");
+  const [hasErrors, setHasErrors] = useState(false);
 
   const handleSubmit = useCallback(() => {
     onAnswer(val);
   }, [onAnswer, val]);
 
   const handleErrorChange = useCallback((hasError: boolean) => {
-    setHasErrors(hasError); // Update error state based on InputDateField
+    setHasErrors(hasError);
   }, []);
 
   return (
@@ -40,14 +46,14 @@ const BirthdayQuestion = ({
             onChange={setVal}
             className="w-full"
             value={val}
-            onErrorChange={handleErrorChange} // Pass error change handler
+            onErrorChange={handleErrorChange}
           />
           <Button
             className="mt-7"
             onClick={handleSubmit}
             disabled={hasErrors || !val}
           >
-            Continue
+            CONTINUE
           </Button>
         </div>
       }

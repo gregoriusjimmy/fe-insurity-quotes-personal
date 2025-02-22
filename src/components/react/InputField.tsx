@@ -53,7 +53,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     };
 
     return (
-      <div className={cn("rounded-md", containerClassName)}>
+      <div className={cn("rounded-lg", containerClassName)}>
         {label && <div className="text-sm font-semibold mb-1">{label}</div>}
         <div className="relative ">
           {!!leftIcon && (
@@ -67,8 +67,9 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             onInput={handleInput}
             maxLength={maxLength}
             className={cn(
-              "transition-colors rounded-md bg-background-1 text-foreground-900 focus:ring-[0.1875rem] focus:ring-primary-400/30",
-              "focus:border-primary-400 border border-gray-500  placeholder-foreground-400 focus:outline-none px-3.5 py-3",
+              "shadow-[inset_0px_20px_15px_20px_rgba(103,_157,_221,_0.1)]",
+              "transition-colors rounded-lg bg-[#679DDD1A] text-lg lg:text-2xl font-bold  text-primary-500 focus:ring-[0.1875rem] focus:ring-primary-500/30",
+              "focus:border-primary-500  placeholder-primary-500 focus:outline-none px-9 py-5.5 lg:py-8",
               errorMessage &&
                 "border-red-500 focus:border-red-500 ring-red-500/30 focus:ring-red-500/30",
               leftIcon && "pl-11",
@@ -77,7 +78,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             )}
           />
           {!!rightIcon && (
-            <div className="absolute right-3.5 inset-y-0 flex items-center">
+            <div className="absolute right-9 inset-y-0 flex items-center">
               {rightIcon}
             </div>
           )}

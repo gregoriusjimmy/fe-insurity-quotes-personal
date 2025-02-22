@@ -6,18 +6,37 @@ html,
 body,
 #root {
   height: 100%;
-  font-size: 16px;
+  font-size: 15px;
   @apply font-primary text-foreground-900;
 
-  @screen 2xl {
-    font-size: 18px;
+  @screen lg {
+    font-size: 14px;
   }
 }
 
-.layout-header {
-  /* 1100px */
-  max-width: 68.75rem;
-  @apply mx-auto w-11/12;
+@layer base {
+  .margin-header {
+    @apply pt-[5.375rem] lg:pt-[11.4375rem];
+  }
+}
+
+@layer utilities {
+  .bg-gradient-primary {
+    @apply bg-[radial-gradient(150.17%_270.47%_at_135.78%_-61.67%,_#22C6C6_0%,_#353572_100%)];
+    background-size: 100% 100%;
+  }
+  .bg-gradient-primary-hovered {
+    @apply bg-[radial-gradient(100%_200%_at_0%_100%,_#26A2B1_0%,_#353572_100%)];
+    background-size: 200% 200%; /* Target size for hover state */
+  }
+
+  .text-gradient-primary {
+    @apply bg-[radial-gradient(150.17%_270.47%_at_135.78%_-61.67%,_#22C6C6_0%,_#353572_100%)] bg-clip-text text-transparent;
+  }
+
+  .animate-pulse-low {
+    animation: pulse-low 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }
 
 @layer components {
@@ -27,10 +46,25 @@ body,
     @apply mx-auto w-[90%] md:w-[80%];
   }
 
+  .align-start {
+    @apply ml-[5%];
+  }
+  .layout-header {
+    max-width: 68.75rem;
+    @apply mx-auto w-[90%];
+  }
+
   /* Adjust to 1200px on large screens */
   @screen lg {
     .layout {
       max-width: 75rem;
+    }
+
+    .layout-header {
+      max-width: 88rem;
+    }
+    .align-start {
+      @apply ml-[10%]; /* Adjust for the larger screen's layout */
     }
   }
   /* Adjust to 1400px on extra-large screens */
@@ -38,6 +72,20 @@ body,
     .layout {
       max-width: 87.5rem;
     }
+
+    .layout-header {
+      max-width: 100rem;
+    }
+
+    .align-start {
+      @apply ml-[12.5%]; /* Adjust for the extra-large screen's layout */
+    }
+  }
+
+  .de-layout {
+    /* Reset default max-width */
+    max-width: none;
+    @apply mx-0 w-full;
   }
 }
 
@@ -47,12 +95,14 @@ body,
   --primary-800: 16, 63, 158; /* #103F9E */
   --primary-700: 19, 76, 190; /* #134CBE */
   --primary-600: 22, 87, 218; /* #1657DA */
-  --primary-500: 35, 101, 233; /* #2365E9 */
-  --primary-400: 107, 151, 240; /* #6B97F0 */
+  --primary-500: 53, 53, 114;
+  --primary-400: 62, 75, 130;
   --primary-300: 158, 187, 245; /* #9EBBF5 */
   --primary-200: 195, 213, 249; /* #C3D5F9 */
   --primary-100: 227, 236, 252; /* #E3ECFC */
   --primary-50: 241, 245, 254; /* #F1F5FE */
+
+  --secondary-500: 34, 198, 198;
 
   --background: 244, 244, 245; /* #F4F4F5 */
 
@@ -95,10 +145,11 @@ body,
 
   --blue-500: 10, 132, 255; /* #0A84FF */
   --blue-900: 0, 64, 128; /* #004080 */
-
   --orange-500: 255, 159, 10; /* #FF9F0A */
   --orange-600: 235, 141, 0; /* #EB8D00 */
 
+  --purple-500: 216, 70, 224;
+  --primaryLight-500: 53, 53, 114, 0.3;
   --background: 14, 19, 23; /* #0E1317 */
   --black: 0, 0, 0; /* #000000 */
   --static: 10, 14, 17; /* #0A0E11 */

@@ -5,19 +5,10 @@ import { ENV } from "src/config";
 import { API_URL, BACKEND_URL } from "src/config";
 import InputField from "@components/react/InputField";
 import RatesFinder from "./_components/RatesFinder";
-
-interface TGeoLocationRes {
-  status: "success" | "fail";
-  country: string;
-  countryCode: string;
-  region: string;
-  regionName: string;
-  city: string;
-  zip: string;
-  lat: number;
-  lon: number;
-  timezone: string;
-}
+import { HEADER_HEIGHT, HEADER_HEIGHT_DESKTOP } from "@components/constants";
+import { useMediaQueries } from "src/hooks/useMediaQuery";
+import { ArrowRightIcon } from "@components/react/icons";
+import type { TGeoLocationRes } from "src/api/geo/types";
 
 // Initialize default values
 let city = "your area";
@@ -41,18 +32,38 @@ try {
 ---
 
 <Layout>
-  <div class="bg-primary-900 w-full">
-    <div class="layout pt-14 pb-[6.5rem]">
-      <h1 class="text-4xl font-semibold text-foreground-50 mb-5">
-        Your top matches in {city}
+  <div
+    class=`margin-header lg:bg-[url('/images/rates-hero-desktop-2x.webp')] bg-[url('/images/rates-hero-mobile-2x.webp')]  bg-no-repeat bg-cover bg-center w-full`
+  >
+    <div
+      class="layout pt-[4.7rem] pb-[6.8rem] lg:pb-[12rem] lg:pt-[7.125rem] z-20"
+    >
+      <h1
+        class="text-3xl lg:text-[5.625rem] font-extrabold text-white mb-8 2xl:max-w-[60%] leading-[1.2]"
+      >
+        Your top matches <br class="" /> in {city}
       </h1>
-      <h1 class="text-foreground-50 font-medium">
+      <h1
+        class="text-white font-bold text-lg mt-14 lg:pt-11 lg:text-3xl 2xl:max-w-[45%] lg:leading-snug"
+      >
         Your top matches Compare car insurance options side-by-side to get the
         best rate and right offer for you.
       </h1>
+      <div
+        class="p-1.75 bg-[rgba(34,198,198,0.3)] w-fit rounded-full mt-9 lg:mt-12"
+      >
+        <a
+          href="/rates"
+          onclick="window.open('/inquiry', '_blank');"
+          class="cursor-pointer flex items-center text-sm lg:text-base px-5 lg:px-8 py-2 lg:py-3.5 rounded-full bg-white hover:bg-gradient-primary transition-all hover:text-white text-[#3E4B82] font-extrabold"
+        >
+          <span> GET A QUOTE</span>
+          <ArrowRightIcon className="ml-2 lg:ml-3" />
+        </a>
+      </div>
     </div>
   </div>
-  <div class="-mt-[4rem]">
+  <div class="-mt-[4rem] lg:mt-[-7rem]">
     <RatesFinder client:load zipCode={zip || ""} />
   </div>
 </Layout>

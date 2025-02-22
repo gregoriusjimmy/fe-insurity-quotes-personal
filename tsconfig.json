@@ -16,6 +16,7 @@
       "@layouts/*": ["src/layouts/*"],
       "@pages/*": ["src/pages/*"],
       "@constants/*": ["src/constants/*"],
+      "@api/*": ["src/api/*"],
       "@lib/*": ["src/lib/*"]
     }
   }
