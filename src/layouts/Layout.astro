@@ -3,7 +3,6 @@ import Header from "@components/react/Header";
 import "../global.css";
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
-console.log(currentPath)
 ---
 
 <!doctype html>
@@ -23,7 +22,6 @@ console.log(currentPath)
   </head>
   <body>
     <Header client:load currentPath={currentPath} />
-    {currentPath}
     <slot />
     <footer class="flex flex-col overflow-hidden mt-20 lg:mt-[8rem]">
       <div class="hidden lg:flex w-full items-center space-x-6 mt-4.5 mb-6">
