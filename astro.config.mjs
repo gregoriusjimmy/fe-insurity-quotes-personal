@@ -7,7 +7,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site:"fe-insurity-quotes.netlify.app",
+  site: "https://fe-insurity-quotes.netlify.app",
   integrations: [react(), tailwind()],
   prefetch:true,
 });
