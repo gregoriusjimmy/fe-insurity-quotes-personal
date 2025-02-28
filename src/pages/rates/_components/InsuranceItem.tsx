@@ -48,7 +48,7 @@ const InsuranceItem = ({ insurance, className }: InsuranceItem) => {
           </li>
         ))}
       </ol>
-      <Button size="md" className="w-fit flex items-center">
+      <Button isFunnel size="md" className="w-fit flex items-center">
         <span>VIEW RATE</span>{" "}
         <ArrowRightIcon className="text-white w-4 h-4 ml-11 group-hover:ml-16 transition-all" />
       </Button>
