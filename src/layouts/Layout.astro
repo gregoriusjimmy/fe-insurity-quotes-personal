@@ -10,7 +10,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,7 +18,54 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "");
       rel="stylesheet"
     />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>Insurity Quotes</title>
+    <!-- Primary Meta Tags -->
+    <meta
+      name="title"
+      content="Insurity Quotes - Safety Agency
+  in Insurance Marketplace"
+    />
+    <meta
+      name="description"
+      content="Your top matches Compare car insurance options side-by-side to get
+  the best rate and right offer for you."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <!-- <meta property="og:url" content="https://metatags.io/" /> -->
+    <meta
+      property="og:title"
+      content="Insurity Quotes - Safety Agency
+  in Insurance Marketplace"
+    />
+    <meta
+      property="og:description"
+      content="Your top matches Compare car insurance options side-by-side to get
+  the best rate and right offer for you."
+    />
+    <!-- <meta
+      property="og:image"
+      content="https://metatags.io/images/meta-tags.png"
+    /> -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <!-- <meta property="twitter:url" content="https://metatags.io/" /> -->
+    <meta
+      property="twitter:title"
+      content="Insurity Quotes - Safety Agency
+  in Insurance Marketplace"
+    />
+    <meta
+      property="twitter:description"
+      content="Your top matches Compare car insurance options side-by-side to get
+  the best rate and right offer for you."
+    />
+    <!-- <meta
+      property="twitter:image"
+      content="https://metatags.io/images/meta-tags.png"
+    /> -->
   </head>
   <body>
     <Header client:load currentPath={currentPath} />
