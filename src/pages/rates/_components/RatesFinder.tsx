@@ -11,6 +11,10 @@ import Button from "@components/react/Button";
 import { ArrowRightIcon, MapPin } from "lucide-react";
 import dummyInsurances from "./insurances.json";
 import InsuranceItem from "./InsuranceItem";
+import { useCallback, useEffect } from "react";
+import type { TGeoLocationRes } from "@api/geo/types";
+import { EENV } from "@constants/index";
+import { API_URL, ENV } from "src/config";
 
 const AGE_OPTIONS: TOption[] = [
   { label: "18-20", value: "18-20" },
@@ -22,13 +26,13 @@ const AGE_OPTIONS: TOption[] = [
   { label: "65+", value: "65+" },
 ];
 
-type Props = {
-  zipCode: string;
-};
+type Props = {};
 
-const RatesFinder = ({ zipCode = "" }: Props) => {
+const RatesFinder = ({}: Props) => {
   const {
     register,
+    setValue,
+    trigger,
     handleSubmit,
     control,
     formState: { errors, isValid },
@@ -40,14 +44,36 @@ const RatesFinder = ({ zipCode = "" }: Props) => {
       currentlyInsured: true,
       homeOwner: true,
       multipleVec: true,
-      zipCode,
     },
   });
 
-  const isButtonDisabled = !isValid || !isValid;
+  const fetchZipCode = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/geo/get-ip-data`, {
+        headers:
+          ENV === EENV.DEV
+            ? {
+                "X-Forwarded-For": "154.38.158.157", // Simulating the IP address in development
+              }
+            : {},
+      });
+      const data: TGeoLocationRes = await res.json();
+      setValue("zipCode", data.zip);
+      trigger();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [setValue, trigger]);
 
-  const onSubmit = (data: TInsuranceRatesForm) => {
-    console.warn(data);
+  useEffect(() => {
+    fetchZipCode();
+  }, [fetchZipCode]);
+
+  const isButtonDisabled = !isValid;
+
+  const onSubmit = (_data: TInsuranceRatesForm) => {
+    window.open("/inquiry", "_blank");
+    window.location.href = "/rates";
   };
 
   return (

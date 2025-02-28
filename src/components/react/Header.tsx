@@ -21,6 +21,7 @@ const Input = () => {
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
+      window.open("/inquiry", "_blank");
       window.location.href = `/article?s=${encodeURIComponent(input)}`;
     }
   };
